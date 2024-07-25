@@ -1,5 +1,5 @@
 "use strict";
-process.env["NO_PROXY"]="*";
+process.env["NO_PROXY"]="";
 /*
  * proxy.js
  * The bandwidth hero proxy handler.
