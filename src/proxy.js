@@ -15,19 +15,10 @@ async function proxy(req, res) {
   /*
    * Avoid loopback that could causing server hang.
    */
-  if (
-    req.headers["via"] == "1.1 bandwidth-hero" &&
-    ["127.0.0.1", "::1"].includes(req.headers["x-forwarded-for"] || req.ip)
-  )
-    return redirect(req, res);
+  
   try {
     let origin = await undici.request(req.params.url, {
-      headers: {
-        ...pick(req.headers, ["cookie", "dnt", "referer", "range"]),
-        "user-agent": "Bandwidth-Hero Compressor",
-        "x-forwarded-for": req.headers["x-forwarded-for"] || req.ip,
-        via: "1.1 bandwidth-hero",
-      },
+      
       maxRedirections: 4
     });
     _onRequestResponse(origin, req, res);
